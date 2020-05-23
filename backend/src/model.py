@@ -65,6 +65,7 @@ class RedisConnection():
         self.conn.hset("accepted_orders", key=order_id, value=merged_json)
         self.conn.hdel("pending_orders", order_id)
 
+
     def is_orderer_json_valid(self, incoming_dict):
         print("got till here")
         required_keys = ["name", "Items", "contact"]
@@ -81,8 +82,16 @@ class RedisConnection():
                 return False
         return True
 
+    def delete_order(self, order_id):
+        return self.conn.hdel("pending_orders", order_id)
 
+    def edit_order(self, order_id, updated_json):
+        if(self.conn.hdel("pending_orders", order_id)):
+            return self.conn.hset("pending_orders", key=order_id, value=updated_json)
+        else:
+            return False
 
+          
 _redis = None
 
 

@@ -104,3 +104,76 @@ def accept_order():
             "message": "JSON not received."
         }
         return json.dumps(return_dict), 400
+
+
+@api_bp.route("/delete_order/<order_id>", methods=["GET"])
+def delete_order(order_id):
+    if model._redis.valid_order(order_id):
+        if model._redis.has_it_been_accepted(order_id):
+            return_dict = {
+                "message": "Your order has already been accepted."
+            }
+            return json.dumps(return_dict), 400
+        else:
+            if(model._redis.delete_order(order_id)):
+                return_dict = {
+                    "message": "Your order has been deleted successfully."
+                }
+                return json.dumps(return_dict), 200
+            else:
+                return_dict = {
+                    "message": "An error occurred while deleting your order."
+                }
+                return json.dumps(return_dict), 203
+    else:
+        return_dict = {
+            "message": "Invalid Order ID."
+        }
+        return json.dumps(return_dict), 404
+
+
+@api_bp.route("/view_order/<order_id>", methods=["GET"])
+def view_order(order_id):
+    if model._redis.valid_order(order_id):
+        if model._redis.has_it_been_accepted(order_id):
+            return model._redis.get_particular_done(order_id), 200
+        else:
+            return model._redis.get_particular_pending(order_id), 200
+    else:
+        return_dict = {
+            "message": "Invalid Order ID."
+        }
+        return json.dumps(return_dict), 404
+
+
+@api_bp.route("/edit_order/<order_id>", methods=["GET", "POST"])
+def edit_order(order_id):
+    if model._redis.valid_order(order_id):
+        if model._redis.has_it_been_accepted(order_id):
+            return_dict = {
+                "message": "Your order has already been accpeted."
+            }
+            return json.dumps(return_dict), 400
+        else:
+            if request.is_json:
+                incoming_json = request.get_json()
+                if(model._redis.edit_order(order_id, incoming_json)):
+                    return_dict = {
+                        "message": "Order updated successfully."
+                    }
+                    return json.dumps(return_dict), 200
+                else:
+                    return_dict = {
+                        "message": "There was an error updating your order."
+                    }
+                    return json.dumps(return_dict), 203
+            else:
+                return_dict = {
+                    "message": "JSON not received."
+                }
+                return json.dumps(return_dict), 400
+    else:
+        return_dict = {
+            "message": "Invalid Order ID."
+        }
+        return json.dumps(return_dict), 404
