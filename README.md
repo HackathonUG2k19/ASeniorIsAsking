@@ -1,6 +1,8 @@
 # ASeniorIsAsking
 
-It is 3 am. You just finished working on a project of yours and the night cravings hit *hard*. What would you *not* do for a Tawa Bonda or a Shawarma? The only thing you wouldn't do is walk all the way to DLF of course. Your message "koi DLF me hai kya" on a WhatsApp group will just get lost in the typical 3 a.m. spam. If only there were a way for you to talk to fachhas already at DLF...
+It's past midnight. You're hungry. You're grumpy. You want nothing but food. But... you're lazy too. What would you not do for a Tawa Bonda or a Shawarma? If only you knew which fachcha is already out there at DLF... Inspired from the 3am chats on the UG2k19 WhatsApp Groups, we present to you the only app you'll ever need to fulfill your heart's desire of having that one last meal before your regular 3-hour sleep.
+
+<img src="./readme_media/screenshot.gif" height="450"/>
 
 ## Setting up the development environment
 ### Frontend
