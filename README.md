@@ -2,7 +2,17 @@
 
 It's past midnight. You're hungry. You're grumpy. You want nothing but food. But... you're lazy too. What would you not do for a Tawa Bonda or a Shawarma? If only you knew which fachcha is already out there at DLF... Inspired from the 3am chats on the UG2k19 WhatsApp Groups, we present to you the only app you'll ever need to fulfill your heart's desire of having that one last meal before your regular 3-hour sleep.
 
-<img src="./readme_media/screenshot.gif" height="450"/>
+<img src="./readme_media/screenshot.gif"/>
+
+## Contributors
+[![](https://github.com/ishaanshah.png?size=150)](https://github.com/ishaanshah)
+&nbsp;
+[![](https://github.com/rahul-goel.png?size=150)](https://github.com/rahul-goel)
+&nbsp;
+[![](https://github.com/Rutvij-1.png?size=150)](https://github.com/Rutvij-1)
+&nbsp;
+[![](https://github.com/sriramdvt.png?size=150)](https://github.com/sriramdvt)
+
 
 ## Setting up the development environment
 ### Frontend
@@ -28,6 +38,7 @@ steps
 
 ```bash
 cd frontend
+yarn
 yarn start
 ```
 
