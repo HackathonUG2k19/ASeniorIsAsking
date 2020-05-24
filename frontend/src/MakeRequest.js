@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MakeRequest() {
   const [items, setItem] = useState([1]);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(2);
 
   const classes = useStyles();
 

@@ -32,7 +32,7 @@ export default function Navbar() {
               to="/make-request"
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
-              Find at DLF
+              Make Request
             </Link>
           </Button>
           <Button className={classes.button} color="inherit">
@@ -40,7 +40,7 @@ export default function Navbar() {
               to="/"
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
-              I am at DLF
+              View Requests
             </Link>
           </Button>
         </Toolbar>
