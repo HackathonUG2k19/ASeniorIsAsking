@@ -35,7 +35,7 @@ def pending_orders():
     # receives a python dictionary of the jsons that were stored.
     # so convert it to a json of jsons and then send it.
     pending_order_dict = model._redis.get_all_pending()
-    return json.dumps(pending_order_dict)
+    return jsonify(pending_order_dict), 200
 
 
 @api_bp.route("/accepted_orders", methods=["GET"])

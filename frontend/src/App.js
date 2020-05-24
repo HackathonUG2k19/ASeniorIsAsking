@@ -12,12 +12,8 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
-        <Route exact path="/">
-          <ViewRequests />
-        </Route>
-        <Route exact path="/make-request">
-          <MakeRequest />
-        </Route>
+        <Route exact path="/" component={ViewRequests} />
+        <Route exact path="/make-request" component={MakeRequest} />
         <Route
           exact
           path="/accept-request/:orderId"

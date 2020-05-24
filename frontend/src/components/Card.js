@@ -16,26 +16,18 @@ const useStyles = makeStyles({
       transform: "scale(1.01)",
       boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)",
     },
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
+    minHeight: "350px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  button: {
-    textTransform: "none",
   },
 });
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -52,7 +44,11 @@ export default function SimpleCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button className={classes.button}>Learn More</Button>
+        <Button
+          href={`${window.location.origin}/accept-request/${props.orderId}`}
+        >
+          Accept Request
+        </Button>
       </CardActions>
     </Card>
   );
