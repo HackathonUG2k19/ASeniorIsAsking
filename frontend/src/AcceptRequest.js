@@ -7,6 +7,7 @@ import Form, { useStyles } from "./components/Form";
 
 export default function AcceptRequest(props) {
   const [order, setOrder] = useState({});
+  const [acceptor, setAcceptor] = useState({ name: "", contact: "" });
 
   const orderId = props.match.params.orderId;
 
@@ -24,7 +25,32 @@ export default function AcceptRequest(props) {
     fetchOrder();
   }, [orderId]);
 
+  const handleAcceptorChange = (e) => {
+    setAcceptor({
+      ...acceptor,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const classes = useStyles();
+
+  const handleSubmit = async (e) => {
+    const data = {
+      acceptor_name: acceptor.name,
+      acceptor_contact: acceptor.contact,
+      order_id: orderId,
+    };
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:5000/accept_order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify(data),
+    });
+    const message = await response.json();
+  };
 
   return (
     <Box m={5}>
@@ -38,14 +64,16 @@ export default function AcceptRequest(props) {
       <Box mt={5} ml={1} fontSize="h5.fontSize" fontWeight="fontWeightLight">
         Your Details
       </Box>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item sm={5} xs={11}>
             <TextField
               className={classes.textField}
               required
               label="Name"
+              name="name"
               variant="outlined"
+              onChange={handleAcceptorChange}
             />
           </Grid>
           <Grid item sm={5} xs={11}>
@@ -54,7 +82,9 @@ export default function AcceptRequest(props) {
               required
               type="number"
               label="Contact No."
+              name="contact"
               variant="outlined"
+              onChange={handleAcceptorChange}
             />
           </Grid>
         </Grid>
@@ -63,6 +93,7 @@ export default function AcceptRequest(props) {
             <Button
               className={classes.textField}
               variant="contained"
+              type="submit"
               size="large"
             >
               Accept
