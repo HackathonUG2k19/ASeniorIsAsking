@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form(props) {
+export default function Form({ readOnly, url }) {
   const [requester, setRequester] = useState({ name: "", contact: "" });
   const [items, setItem] = useState([{ item: "", shop: "", qty: "", id: 1 }]);
   const [count, setCount] = useState(2);
@@ -47,10 +47,38 @@ export default function Form(props) {
     setItem(newItems);
   };
 
-  const readOnly = props.readOnly;
+  const handleSubmit = async (e) => {
+    const data = {
+      name: requester.name,
+      contact: requester.contact,
+      items: items.map((elem) => {
+        return {
+          item: elem.item,
+          shop: elem.shop,
+          qty: elem.qty,
+        };
+      }),
+    };
+    e.preventDefault();
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const message = await response.json();
+      window.location = `${window.location.origin}/view-request/${message.order_id}`;
+    } catch {
+      // TODO: Error handling
+    }
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item sm={5} xs={11}>
           <TextField
@@ -130,6 +158,7 @@ export default function Form(props) {
           <Grid item>
             <Button
               className={classes.textField}
+              type="submit"
               variant="contained"
               size="large"
             >

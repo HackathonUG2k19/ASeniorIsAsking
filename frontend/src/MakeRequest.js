@@ -8,7 +8,7 @@ export default function MakeRequest() {
       <Box fontSize="h4.fontSize" fontWeight="fontWeightLight" mb={4} ml={1}>
         Place your request
       </Box>
-      <Form />
+      <Form url="http://localhost:5000/order_request" />
     </Box>
   );
 }
