@@ -3,6 +3,8 @@ It's past midnight. You're hungry. You're grumpy. You want nothing but food. But
  
 <img src="https://raw.githubusercontent.com/HackathonUG2k19/ASeniorIsAsking/master/readme_media/workflow.gif"/>
 
+Link to the [GIF](https://raw.githubusercontent.com/HackathonUG2k19/ASeniorIsAsking/master/readme_media/workflow.gif)
+
 ### Frontend
 The frontend is built using ReactJS, a declarative `JavaScript` library used to build User Interfaces. We are using Material UI as the component library, it is based the Material design language by Google and helps in making the website responsive.
 
