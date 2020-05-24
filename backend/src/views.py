@@ -107,9 +107,9 @@ def delete_order(order_id):
 def view_order(order_id):
     if model._redis.valid_order(order_id):
         if model._redis.has_it_been_accepted(order_id):
-            return json.dumps(model._redis.get_particular_done(order_id)), 200
+            return jsonify(model._redis.get_particular_done(order_id)), 200
         else:
-            return json.dumps(model._redis.get_particular_pending(order_id)), 200
+            return jsonify(model._redis.get_particular_pending(order_id)), 200
 
         return_dict = {
             "message": "Invalid Order ID."
