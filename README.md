@@ -84,3 +84,5 @@ sudo docker-compose up
 
 If all goes well, you should have a server running at `localhost:5000`,
 Happy Coding :rocket:
+
+<img src="./readme_media/workflow.gif"/>
