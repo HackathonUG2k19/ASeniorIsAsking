@@ -3,11 +3,13 @@ import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Alert from "@material-ui/lab/Alert";
 import Form, { useStyles } from "./components/Form";
 
 export default function AcceptRequest(props) {
   const [order, setOrder] = useState({});
   const [acceptor, setAcceptor] = useState({ name: "", contact: "" });
+  const [msg, setMsg] = useState("");
 
   const orderId = props.match.params.orderId;
 
@@ -50,10 +52,12 @@ export default function AcceptRequest(props) {
       body: JSON.stringify(data),
     });
     const message = await response.json();
+    setMsg(message["message"]);
   };
 
   return (
     <Box m={5}>
+      {msg && <Alert severity="info">{msg}</Alert>}
       <Box fontSize="h4.fontSize" fontWeight="fontWeightLight" mb={4} ml={1}>
         Accept Request
       </Box>
