@@ -19,7 +19,11 @@ function App() {
           path="/accept-request/:orderId"
           component={AcceptRequest}
         />
-        <Route exact path="request-status/:orderId" component={RequestStatus} />
+        <Route
+          exact
+          path="/request-status/:orderId"
+          component={RequestStatus}
+        />
       </Switch>
     </Router>
   );
