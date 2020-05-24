@@ -7,13 +7,6 @@ import json
 api_bp = Blueprint('api_bp', __name__)
 
 
-@api_bp.route("/")
-def index():
-    model._redis.inc_count()
-    count = model._redis.get_count()
-    return "This page has been visited {} times".format(count)
-
-
 @api_bp.route("/order_request", methods=["POST"])
 def order_request():
     if request.is_json:
@@ -142,11 +135,11 @@ def edit_order(order_id):
                     }
                     return json.dumps(return_dict), 400
                 else:
-                    if(model._redis.edit_order(order_id, incoming_dict))
-                    return_dict = {
-                        "message": "Your order has been updated successfully."
-                    }
-                    return json.dumps(return_dict), 200
+                    if(model._redis.edit_order(order_id, incoming_dict)):
+                        return_dict = {
+                            "message": "Your order has been updated successfully."
+                        }
+                        return json.dumps(return_dict), 200
                     else:
                         return_dict = {
                             "message": "There was an error updating your order."

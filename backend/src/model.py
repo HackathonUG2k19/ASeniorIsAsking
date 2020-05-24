@@ -10,12 +10,6 @@ class RedisConnection():
                                 port=config.REDIS_PORT, charset="utf-8", decode_responses=True)
         self.conn.incr("number_of_orders", amount=0)
 
-    def inc_count(self):
-        self.conn.incr('count', amount=1)
-
-    def get_count(self):
-        return self.conn.get('count')
-
     def valid_order(self, order_id):
         try:
             num = int(order_id)
@@ -72,12 +66,11 @@ class RedisConnection():
         self.conn.hdel("pending_orders", order_id)
 
     def is_orderer_json_valid(self, incoming_dict):
-        print("got till here")
-        required_keys = ["name", "Items", "contact"]
+        required_keys = ["name", "items", "contact"]
         for key in required_keys:
             if key not in incoming_dict:
                 return False
-        if len(incoming_dict["Items"]) <= 0:
+        if len(incoming_dict["items"]) <= 0:
             return False
         return True
 
@@ -101,32 +94,6 @@ class RedisConnection():
             return False
 
 
-    def is_orderer_json_valid(self, incoming_dict):
-        print("got till here")
-        required_keys = ["name", "Items", "contact"]
-        for key in required_keys:
-            if key not in incoming_dict:
-                return False
-        if len(incoming_dict["Items"]) <= 0:
-            return False
-        return True
-    def is_acceptor_json_valid(self, incoming_dict):
-        required_keys = ["acceptor_name", "acceptor_contact", "order_id"]
-        for key in required_keys:
-            if key not in incoming_dict:
-                return False
-        return True
-
-    def delete_order(self, order_id):
-        return self.conn.hdel("pending_orders", order_id)
-
-    def edit_order(self, order_id, updated_json):
-        if(self.conn.hdel("pending_orders", order_id)):
-            return self.conn.hset("pending_orders", key=order_id, value=updated_json)
-        else:
-            return False
-
-          
 _redis = None
 
 
