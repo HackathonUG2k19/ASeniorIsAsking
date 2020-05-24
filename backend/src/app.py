@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 import backend.src.model as model
 import backend.src.views as views
@@ -17,4 +18,5 @@ def create_app(debug=True):
 
 if __name__ == "__main__":
     app = create_app()
+    CORS(app)
     app.run(host="0.0.0.0")

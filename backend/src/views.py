@@ -1,5 +1,4 @@
-from flask import Blueprint
-from flask import request
+from flask import Blueprint, request, jsonify
 
 import backend.src.model as model
 import json
@@ -16,19 +15,19 @@ def order_request():
             return_dict = {
                 "message": "Invalid JSON."
             }
-            return json.dumps(return_dict), 400
+            return jsonify(return_dict), 400
         else:
             latest_order_id = model._redis.pending_order_add(incoming_dict)
             return_dict = {
                 "order_id": str(latest_order_id)
             }
-            return json.dumps(return_dict), 200
+            return jsonify(return_dict), 200
 
     else:
         return_dict = {
             "message": "JSON not received."
         }
-        return json.dumps(return_dict), 400
+        return jsonify(return_dict), 400
 
 
 @api_bp.route("/pending_orders_list", methods=["GET"])
