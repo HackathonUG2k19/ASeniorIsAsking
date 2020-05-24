@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -6,7 +6,23 @@ import Button from "@material-ui/core/Button";
 import Form, { useStyles } from "./components/Form";
 
 export default function AcceptRequest(props) {
+  const [order, setOrder] = useState({});
+
   const orderId = props.match.params.orderId;
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const response = await fetch(
+        `http://localhost:5000/view_order/${orderId}`
+      );
+      const data = await response.json();
+
+      setOrder(data);
+      setTimeout(fetchOrder, 3000);
+    };
+
+    fetchOrder();
+  }, [orderId]);
 
   const classes = useStyles();
 
@@ -18,7 +34,7 @@ export default function AcceptRequest(props) {
       <Box fontSize="h5.fontSize" fontWeight="fontWeightLight" ml={1}>
         Order Details
       </Box>
-      <Form readOnly />
+      <Form readOnly order={order} />
       <Box mt={5} ml={1} fontSize="h5.fontSize" fontWeight="fontWeightLight">
         Your Details
       </Box>

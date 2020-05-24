@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({ readOnly, url }) {
+export default function Form({ readOnly, url, order }) {
   const [requester, setRequester] = useState({ name: "", contact: "" });
   const [items, setItem] = useState([{ item: "", shop: "", qty: "", id: 1 }]);
   const [count, setCount] = useState(2);
@@ -77,12 +77,23 @@ export default function Form({ readOnly, url }) {
     }
   };
 
+  useEffect(() => {
+    const test = () => {
+      if (readOnly) {
+        setRequester({ name: order.name, contact: order.contact });
+        setItem(order.items);
+      }
+    };
+    test();
+  }, [readOnly, order]);
+
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item sm={5} xs={11}>
           <TextField
             className={classes.textField}
+            value={requester.name}
             required
             name="name"
             label="Name"
@@ -94,6 +105,7 @@ export default function Form({ readOnly, url }) {
         <Grid item sm={5} xs={11}>
           <TextField
             className={classes.textField}
+            value={requester.contact}
             required
             type="number"
             name="contact"
@@ -104,55 +116,56 @@ export default function Form({ readOnly, url }) {
           />
         </Grid>
       </Grid>
-      {items.map((elem, idx) => (
-        <Grid container spacing={2} alignItems="center" key={elem.id}>
-          <Grid item sm={5} xs={11}>
-            <TextField
-              required
-              label="Item"
-              variant="outlined"
-              className={classes.textField}
-              value={items[idx].item}
-              inputProps={{ readOnly, idx, field: "item" }}
-              onChange={handleItemChange}
-            />
-          </Grid>
-          <Grid item sm={2} xs={5}>
-            <TextField
-              required
-              label="Shop"
-              variant="outlined"
-              className={classes.textField}
-              value={items[idx].shop}
-              inputProps={{ readOnly, idx, field: "shop" }}
-              onChange={handleItemChange}
-            />
-          </Grid>
-          <Grid item sm={2} xs={4}>
-            <TextField
-              required
-              type="number"
-              label="Qty"
-              variant="outlined"
-              className={classes.textField}
-              value={items[idx].qty}
-              inputProps={{ readOnly, idx, field: "qty" }}
-              onChange={handleItemChange}
-            />
-          </Grid>
-          {!readOnly && (
-            <Grid item sm={1} xs={1}>
-              <IconButton
-                size="large"
-                disabled={items.length === 1}
-                onClick={() => handleDelete(elem.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+      {items &&
+        items.map((elem, idx) => (
+          <Grid container spacing={2} alignItems="center" key={elem.id}>
+            <Grid item sm={5} xs={11}>
+              <TextField
+                required
+                label="Item"
+                variant="outlined"
+                className={classes.textField}
+                value={items[idx].item}
+                inputProps={{ readOnly, idx, field: "item" }}
+                onChange={handleItemChange}
+              />
             </Grid>
-          )}
-        </Grid>
-      ))}
+            <Grid item sm={2} xs={5}>
+              <TextField
+                required
+                label="Shop"
+                variant="outlined"
+                className={classes.textField}
+                value={items[idx].shop}
+                inputProps={{ readOnly, idx, field: "shop" }}
+                onChange={handleItemChange}
+              />
+            </Grid>
+            <Grid item sm={2} xs={4}>
+              <TextField
+                required
+                type="number"
+                label="Qty"
+                variant="outlined"
+                className={classes.textField}
+                value={items[idx].qty}
+                inputProps={{ readOnly, idx, field: "qty" }}
+                onChange={handleItemChange}
+              />
+            </Grid>
+            {!readOnly && (
+              <Grid item sm={1} xs={1}>
+                <IconButton
+                  size="large"
+                  disabled={items.length === 1}
+                  onClick={() => handleDelete(elem.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            )}
+          </Grid>
+        ))}
       {!readOnly && (
         <Grid container spacing={2}>
           <Grid item>
