@@ -14,19 +14,36 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form(props) {
-  const [items, setItem] = useState([1]);
+  const [requester, setRequester] = useState({ name: "", contact: "" });
+  const [items, setItem] = useState([{ item: "", shop: "", qty: "", id: 1 }]);
   const [count, setCount] = useState(2);
 
   const classes = useStyles();
+  const blankItem = { item: "", shop: "", qty: "" };
+
+  const handleRequesterChange = (e) => {
+    setRequester({
+      ...requester,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleItemChange = (e) => {
+    const newItems = [...items];
+    const idx = e.target.getAttribute("idx");
+    const field = e.target.getAttribute("field");
+    newItems[idx][field] = e.target.value;
+    setItem(newItems);
+  };
 
   const handleInsert = () => {
     setCount((prevCount) => prevCount + 1);
-    const newItems = [...items, count];
+    const newItems = [...items, { ...blankItem, id: count }];
     setItem(newItems);
   };
 
   const handleDelete = (id) => {
-    const newItems = items.filter((itemId) => id !== itemId);
+    const newItems = items.filter((item) => id !== item.id);
     setItem(newItems);
   };
 
@@ -39,9 +56,11 @@ export default function Form(props) {
           <TextField
             className={classes.textField}
             required
+            name="name"
             label="Name"
             variant="outlined"
             inputProps={{ readOnly }}
+            onChange={handleRequesterChange}
           />
         </Grid>
         <Grid item sm={5} xs={11}>
@@ -49,42 +68,48 @@ export default function Form(props) {
             className={classes.textField}
             required
             type="number"
+            name="contact"
             label="Contact No."
             variant="outlined"
             inputProps={{ readOnly }}
+            onChange={handleRequesterChange}
           />
         </Grid>
       </Grid>
-      {items.map((elem) => (
-        <Grid container spacing={2} alignItems="center" key={elem}>
+      {items.map((elem, idx) => (
+        <Grid container spacing={2} alignItems="center" key={elem.id}>
           <Grid item sm={5} xs={11}>
             <TextField
               required
-              fullWidth
               label="Item"
               variant="outlined"
               className={classes.textField}
-              inputProps={{ readOnly }}
+              value={items[idx].item}
+              inputProps={{ readOnly, idx, field: "item" }}
+              onChange={handleItemChange}
             />
           </Grid>
           <Grid item sm={2} xs={5}>
             <TextField
               required
-              fullWidth
               label="Shop"
               variant="outlined"
               className={classes.textField}
-              inputProps={{ readOnly }}
+              value={items[idx].shop}
+              inputProps={{ readOnly, idx, field: "shop" }}
+              onChange={handleItemChange}
             />
           </Grid>
           <Grid item sm={2} xs={4}>
             <TextField
               required
-              fullWidth
               type="number"
               label="Qty"
               variant="outlined"
               className={classes.textField}
+              value={items[idx].qty}
+              inputProps={{ readOnly, idx, field: "qty" }}
+              onChange={handleItemChange}
             />
           </Grid>
           {!readOnly && (
@@ -92,7 +117,7 @@ export default function Form(props) {
               <IconButton
                 size="large"
                 disabled={items.length === 1}
-                onClick={() => handleDelete(elem)}
+                onClick={() => handleDelete(elem.id)}
               >
                 <DeleteIcon />
               </IconButton>
